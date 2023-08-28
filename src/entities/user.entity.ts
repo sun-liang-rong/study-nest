@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Entity, Column, ManyToMany, JoinColumn } from 'typeorm'
+import { PrimaryGeneratedColumn, Entity, Column, ManyToMany, JoinTable } from 'typeorm'
 import { BaseEntity } from './base.entity'
 import { Permissions } from './permissions.entity'
 @Entity()
@@ -13,6 +13,6 @@ export class User extends BaseEntity {
   password: string
 
   @ManyToMany(type => Permissions, permissions => permissions.users)
-  @JoinColumn()
-  permissions: Permissions[]
+  @JoinTable()
+  permissionss: Permissions[]
 }

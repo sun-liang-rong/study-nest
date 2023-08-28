@@ -20,10 +20,6 @@ import { UserModule } from './user/user.module';
       database: process.env.DATABASE_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
-      migrations: [__dirname + '/migrations/*{.ts,.js}'], // 迁移文件所在的路径
-      // cli: {
-      //   migrationsDir: 'src/migrations', // 迁移文件的目录
-      // },
     }),
     CatsModule,
     UserModule,

@@ -62,7 +62,7 @@ export class UserService {
   }
   async getUserList(){
     const user =  await this.userRepository.find({
-      relations: ['permissions']
+      relations: ['permissionss']
     })
     return {
       codeStatus: 200,
