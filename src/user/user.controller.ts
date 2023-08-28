@@ -34,6 +34,14 @@ export class UserController {
   getUserList(){
     return this.userService.getUserList()
   }
+  @Post('getAllRole')
+  getAllRole(){
+    return this.userService.getAllRole()
+  }
+  @Post('addUserRole')
+  addUserRole(@Body() body){
+    return this.userService.addUserRole(body)
+  }
   @Get()
   findAll() {
     return this.userService.findAll();
