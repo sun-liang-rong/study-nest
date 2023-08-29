@@ -5,6 +5,8 @@ import { CatsModule } from './cats/cats.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { CacheModule } from './cache/cache.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,15 +25,13 @@ import { UserModule } from './user/user.module';
     }),
     CatsModule,
     UserModule,
+    AuthModule,
+    CacheModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
   constructor(){
-    console.log(process.env, 'process.env.NODE_ENV')
   }
-  // configure(consumer: MiddlewareConsumer){
-  //   consumer.apply(MiddlewareMiddleware).forRoutes('cats');
-  // }
 }

@@ -3,7 +3,7 @@ import { CreateUserDto, LoginDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, JoinTable } from 'typeorm';
 import { Permissions } from 'src/entities/permissions.entity';
 @Injectable()
 export class UserService {
@@ -15,11 +15,19 @@ export class UserService {
   async create(loginDto: LoginDto) {
     const { username, password } = loginDto;
     let user = await this.userRepository
-      .createQueryBuilder()
+      .createQueryBuilder('user')
       .addSelect('password')
+      .leftJoinAndSelect('user.permissionss', 'permissionss')
       .where('username=:username', { username })
       .getOne();
     if (!user) {
+      return {
+        codeStatus: 400,
+        message: '用户名或密码错误',
+        data: null,
+      };
+    }
+    if(password != user.password) {
       return {
         codeStatus: 400,
         message: '用户名或密码错误',
@@ -108,14 +116,36 @@ export class UserService {
       data: user,
     };
   }
+  async addUser(body){
+    const {username, password} = body;
+    let user = await this.userRepository.create({
+      username,
+      password
+    })
+    user = await this.userRepository.save(user)
+    return{
+      codeStatus: 200,
+      message: '添加成功',
+      data: user,
+    }
+  }
   findAll() {
     return `This action returns all user`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(username): Promise<User>{
+    console.log(username, '-----username')
+    const user = await this.userRepository.createQueryBuilder('user').where('username=:username', {username}).getOne()
+    console.log(user, '-----user')
+    return user
   }
 
+  async validateUser(username, password){
+    return await this.userRepository.createQueryBuilder('user').where('username = :username',{username}).andWhere('password = :password', {password}).leftJoinAndSelect('user.permissionss', 'permissionss').getOne()
+  }
+  async getUserRoles(username){
+    return await this.userRepository.createQueryBuilder('user').where('username = :username', {username}).leftJoinAndSelect('user.permissionss', 'permissionss').getOne()
+  }
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
