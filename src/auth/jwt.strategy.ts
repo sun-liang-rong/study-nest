@@ -26,8 +26,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
   async validate(payload: any, req: any) {
     console.log('JwtStrategy', payload);
+    //有refreshToken说明是刷新token
+    let cacheJwt
+    if(payload.refreshToken){
+      cacheJwt = await this.cacheService.get(payload.sub + payload.username + true)
+    }else {
+      cacheJwt = await this.cacheService.get(payload.sub + payload.username)
+    }
     console.log(this.unverifiedJwt); // 打印未解密的 JWT
-    const cacheJwt = await this.cacheService.get(payload.sub + payload.username)
     console.log(cacheJwt)
     if(this.unverifiedJwt !== cacheJwt) {
       throw new UnauthorizedException('你的账号在其他地方登录', '401');

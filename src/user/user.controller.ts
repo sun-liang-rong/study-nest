@@ -29,7 +29,7 @@ export class UserController {
     console.log(body);
     return this.userService.getRole(body);
   }
-  @UseGuards(AuthGuard('jwt'),RolesGuard)
+  // @UseGuards(AuthGuard('jwt'),RolesGuard)
   @Roles('超级管理员')
   @Post('addRole')
   addRole(@Body() body) {
@@ -46,13 +46,13 @@ export class UserController {
   getAllRole(){
     return this.userService.getAllRole()
   }
-  @UseGuards(AuthGuard('jwt'),RolesGuard)
+  // @UseGuards(AuthGuard('jwt'),RolesGuard)
   @Roles('超级管理员')
   @Post('addUserRole')
   addUserRole(@Body() body){
     return this.userService.addUserRole(body)
   }
-  @UseGuards(AuthGuard('jwt'),RolesGuard)
+  // @UseGuards(AuthGuard('jwt'),RolesGuard)
   @Roles('超级管理员')
   @Post('addUser')
   addUser(@Body() body){
