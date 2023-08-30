@@ -4,8 +4,11 @@ import { AppModule } from './app.module';
 import { MiddlewareMiddleware } from './middleware/middleware.middleware';
 import { HttpExceptionFilter } from './common/httpExceptionFilter/http-exception.filter';
 import { TransformInterceptor } from './common/interceptor/transform.interceptor';
+import { Logger } from '@nestjs/common';
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: ['error', 'warn', 'log', 'debug', 'verbose']
+  });
   //全局中间件 需要是一个函数 不能是一个类
   app.use(MiddlewareMiddleware)
   //全局异常过滤器
