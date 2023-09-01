@@ -34,10 +34,19 @@ export class CacheService {
   }
   //添加成员集合
   async sadd(key: string, value: any) {
+    value = JSON.stringify(value)
     return await this.redisClient.sAdd(key, value);
   }
   //获取成员集合
   async scard(key: string) {
     return await this.redisClient.sCard(key);
+  }
+  //获取集合里面的值
+  async smembers(key: string) {
+    return await this.redisClient.sMembers(key);
+  }
+  // 查询随机一项的值
+  async srandmember(key: string) {
+    return await this.redisClient.sRandMember(key);
   }
 }

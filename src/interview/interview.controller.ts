@@ -18,7 +18,11 @@ export class InterviewController {
   }
   @UseGuards(AuthGuard('jwt'))
   @Post('addInterview')
-  addInterview(@Req() req){
-    return this.interviewService.addInterview(req.user)
+  addInterview(@Req() req, @Body() body){
+    return this.interviewService.addInterview(req.user, body)
+  }
+  @Post('getSmembersValue')
+  getSmembersValue(){
+    return this.interviewService.getSmembersValue()
   }
 }

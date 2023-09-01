@@ -10,4 +10,6 @@ export class Interview extends BaseEntity{
   dayInterview: string
   @Column()
   timeDate: string
+  @Column()
+  bookId: string
 }

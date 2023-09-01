@@ -29,14 +29,21 @@ export class InterviewService {
     }
   }
   //添加访问量
-  async addInterview(user) {
+  async addInterview(user, body) {
     // this.cacheService.sadd('interview', user);
-    console.log(this.getCurrentDate(), user)
+    console.log(this.getCurrentDate(), user, body)
+    const { bookId, authId, authName} = body
+    let obj = {
+      bookId,
+      authId,
+      authName,
+      userId: String(user.id)
+    }
     let currentDay = this.getCurrentDate()
     //2.添加总访问量
-    const result = await this.cacheService.sadd('s_view_all:id', user.id + ":" + currentDay);
+    const result = await this.cacheService.sadd('s_view_all:', obj);
     //1.添加当日访问量
-    const result2 = await this.cacheService.sadd('s_view_day:id' + currentDay, String(user.id));
+    const result2 = await this.cacheService.sadd('s_view_day:id' + currentDay, obj);
     return {
       codeStatus: 200,
       message: '添加成功',
@@ -44,6 +51,15 @@ export class InterviewService {
         result,
         result2,
       },
+    }
+  }
+  async getSmembersValue(){
+    const data = await this.cacheService.smembers('s_view_all:id')
+    console.log(data)
+    return {
+      codeStatus: 200,
+      message: '获取成功',
+      data
     }
   }
   getCurrentDate() {

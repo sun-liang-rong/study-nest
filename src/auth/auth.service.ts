@@ -41,7 +41,7 @@ export class AuthService {
   async login(user: any) {
     const payload = { username: user.username, sub: user.id };
     const refreshTokenPayload = { username: user.username, sub: user.id, refreshToken: true};
-    let accessToken = this.jwtService.sign(payload, {expiresIn: '60s'})
+    let accessToken = this.jwtService.sign(payload, {expiresIn: '1h'})
     let refreshToken = this.jwtService.sign(refreshTokenPayload, {expiresIn: '7d'})
     let cacheValue = await this.cacheService.set(user.id + user.username, accessToken)
     await this.cacheService.set(user.id + user.username + true, refreshToken)
@@ -58,7 +58,7 @@ export class AuthService {
   async refreshToken(req){
     console.log(req.user, '---------refreshToken')
     const payload = { username: req.user.username, sub: req.user.id };
-    let accessToken = this.jwtService.sign(payload, {expiresIn: '60s'})
+    let accessToken = this.jwtService.sign(payload, {expiresIn: '1h'})
     let cacheValue = await this.cacheService.set(payload.sub + payload.username, accessToken)
     console.log(cacheValue)
     return {
