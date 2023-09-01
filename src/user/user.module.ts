@@ -6,8 +6,9 @@ import { User } from "../entities/user.entity";
 import { Permissions } from 'src/entities/permissions.entity';
 import { JwtStrategy } from 'src/auth/jwt.strategy';
 import { CacheModule } from 'src/cache/cache.module';
+import { ScheduleModule } from '@nestjs/schedule';
 @Module({
-  imports : [TypeOrmModule.forFeature([User, Permissions]), CacheModule],
+  imports : [TypeOrmModule.forFeature([User, Permissions]), CacheModule, ScheduleModule.forRoot()],
   controllers: [UserController],
   providers: [UserService, JwtStrategy],
   exports: [UserService]

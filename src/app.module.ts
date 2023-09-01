@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { CacheModule } from './cache/cache.module';
+import { InterviewModule } from './interview/interview.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,6 +28,7 @@ import { CacheModule } from './cache/cache.module';
     UserModule,
     AuthModule,
     CacheModule,
+    InterviewModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -141,7 +141,12 @@ export class UserService {
   }
 
   async validateUser(username, password){
-    return await this.userRepository.createQueryBuilder('user').where('username = :username',{username}).andWhere('password = :password', {password}).leftJoinAndSelect('user.permissionss', 'permissionss').getOne()
+    try {
+      return await this.userRepository.createQueryBuilder('user').where('username = :username',{username}).andWhere('password = :password', {password}).leftJoinAndSelect('user.permissionss', 'permissionss').getOne()
+    } catch (error) {
+      console.log(error, 'error')
+    }
+    
   }
   async getUserRoles(username){
     return await this.userRepository.createQueryBuilder('user').where('username = :username', {username}).leftJoinAndSelect('user.permissionss', 'permissionss').getOne()

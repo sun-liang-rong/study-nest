@@ -32,4 +32,12 @@ export class CacheService {
   async flushall() {
     return await this.redisClient.flushAll();
   }
+  //添加成员集合
+  async sadd(key: string, value: any) {
+    return await this.redisClient.sAdd(key, value);
+  }
+  //获取成员集合
+  async scard(key: string) {
+    return await this.redisClient.sCard(key);
+  }
 }
